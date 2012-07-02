@@ -38,7 +38,7 @@ drawDots = (px, py) ->
       offsetY = (j * s1) - s4
       dx = x + offsetX
       dy = y + offsetY
-      if dy % s2 is 0 then dx -= 5
+      if dy % s2 is 0 then dx -= sh
       opacity = 0.7 - (distance(dx, dy, px, py) / maxDistance).toFixed(2)
       dot dx, dy, opacity
 
