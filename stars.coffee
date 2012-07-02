@@ -11,7 +11,7 @@ ctx = canvas.getContext '2d'
 dot = (x, y, opacity=1) ->
   ctx.fillStyle = "rgba(#{[255,255,255,opacity]})"
   ctx.beginPath()
-  ctx.arc x, y, 1, 0, Math.PI*2, true
+  ctx.arc x, y, (1 + opacity * 2), 0, Math.PI*2, true
   ctx.closePath()
   ctx.fill()
     
@@ -20,7 +20,7 @@ distance = (x1, y1, x2, y2) ->
   ys = Math.pow(y2 - y1, 2)
   return Math.sqrt xs + ys
     
-s1 = 10
+s1 = if screen.width > 1024 then 12 else 16
 s2 = s1*2
 s4 = s1*4
 sh = s1/2
