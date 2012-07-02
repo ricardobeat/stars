@@ -29,7 +29,9 @@ dots = 10
   
 maxDistance = distance(0, 0, dots * 0.5 * s1, dots * 0.5 * s1)
   
-drawDots = (x, y, px, py) ->
+drawDots = (px, py) ->
+  x = Math.floor(px/s1) * s1
+  y = Math.floor(py/s1) * s1
   for i in [0..10]
     offsetX = (i * s1) - s4
     for j in [0..10]
@@ -39,9 +41,14 @@ drawDots = (x, y, px, py) ->
       if dy % s2 is 0 then dx -= 5
       opacity = 0.7 - (distance(dx, dy, px, py) / maxDistance).toFixed(2)
       dot dx, dy, opacity
-    
-document.addEventListener 'mousemove', (e) ->
-  x = Math.floor(e.pageX/s1)*s1
-  y = Math.floor(e.pageY/s1)*s1
-  ctx.clearRect Math.max(0, x-200), Math.max(0, y-200), x+200, y+200
-  drawDots x, y, e.pageX, e.pageY
+
+update = (e) ->
+  if not e.touches?
+    e.touches = [{ pageX: e.pageX, pageY: e.pageY }]
+  for touch in e.touches
+    { pageX:x, pageY:y } = touch
+    ctx.clearRect Math.max(0, x-200), Math.max(0, y-200), x+200, y+200
+    drawDots x, y
+
+document.addEventListener 'mousemove', update, false
+document.addEventListener 'touchmove', update, false
