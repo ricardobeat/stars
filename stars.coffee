@@ -32,9 +32,9 @@ maxDistance = distance(0, 0, dots * 0.5 * s1, dots * 0.5 * s1)
 drawDots = (px, py) ->
   x = Math.floor(px/s1) * s1
   y = Math.floor(py/s1) * s1
-  for i in [0..10]
+  for i in [0..dots]
     offsetX = (i * s1) - s4
-    for j in [0..10]
+    for j in [0..dots]
       offsetY = (j * s1) - s4
       dx = x + offsetX
       dy = y + offsetY
@@ -43,6 +43,8 @@ drawDots = (px, py) ->
       dot dx, dy, opacity
 
 update = (e) ->
+  e.preventDefault()
+  e.stopPropagation()
   if not e.touches?
     e.touches = [{ pageX: e.pageX, pageY: e.pageY }]
   for touch in e.touches
@@ -50,5 +52,9 @@ update = (e) ->
     ctx.clearRect Math.max(0, x-200), Math.max(0, y-200), x+200, y+200
     drawDots x, y
 
+clear = (e) ->
+  ctx.clearRect 0, 0, canvas.width, canvas.height
+
 document.addEventListener 'mousemove', update, false
 document.addEventListener 'touchmove', update, false
+document.addEventListener 'touchend', clear, false
