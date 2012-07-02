@@ -45,12 +45,14 @@ drawDots = (px, py) ->
 update = (e) ->
   e.preventDefault()
   e.stopPropagation()
+  [x,y] = [0,0]
   if not e.touches?
     e.touches = [{ pageX: e.pageX, pageY: e.pageY }]
   for touch in e.touches
-    { pageX:x, pageY:y } = touch
+    [x,y] = [touch.pageX, touch.pageY]
     ctx.clearRect Math.max(0, x-200), Math.max(0, y-200), x+200, y+200
-    drawDots x, y
+  for touch in e.touches
+    drawDots touch.pageX, touch.pageY
 
 clear = (e) ->
   ctx.clearRect 0, 0, canvas.width, canvas.height
